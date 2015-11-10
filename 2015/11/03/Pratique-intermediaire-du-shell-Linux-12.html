@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Pratique intermédiaire du shell Linux (1/2)</title>
+    <meta name="description" content="" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="//ferandec.github.io/themes/Casper/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="//ferandec.github.io/themes/Casper/assets/css/screen.css?v=1.0.0" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+
+    <link rel="canonical" href="https://ferandec.github.io/2015/11/03/Pratique-intermediaire-du-shell-Linux-12.html" />
+    
+    <meta property="og:site_name" content="Ah, Gudule ! Si tu savais..." />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Pratique intermédiaire du shell Linux (1/2)" />
+    <meta property="og:description" content="Présentation de l&amp;#8217;activité Objectifs À l&amp;#8217;issue de ce TP, vous devez être capable de &amp;#8230;&amp;#8203; : mettre en pratique les différents mécanismes liés aux méta-caractères du shell (jokers, redirection, tubes, enchaînement de commandes&amp;#8230;&amp;#8203;) visualiser/..." />
+    <meta property="og:url" content="https://ferandec.github.io/2015/11/03/Pratique-intermediaire-du-shell-Linux-12.html" />
+    <meta property="article:published_time" content="2015-11-02T23:00:00.000Z" />
+    <meta property="article:modified_time" content="2015-11-10T09:00:30.063Z" />
+    <meta property="article:tag" content="linux shell" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Pratique intermédiaire du shell Linux (1/2)" />
+    <meta name="twitter:description" content="Présentation de l&amp;#8217;activité Objectifs À l&amp;#8217;issue de ce TP, vous devez être capable de &amp;#8230;&amp;#8203; : mettre en pratique les différents mécanismes liés aux méta-caractères du shell (jokers, redirection, tubes, enchaînement de commandes&amp;#8230;&amp;#8203;) visualiser/..." />
+    <meta name="twitter:url" content="https://ferandec.github.io/2015/11/03/Pratique-intermediaire-du-shell-Linux-12.html" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "Ah, Gudule ! Si tu savais...",
+    "author": {
+        "@type": "Person",
+        "name": null,
+        "image": "https://avatars.githubusercontent.com/u/2629602?v=3",
+        "url": "undefined/author/undefined",
+        "sameAs": null
+    },
+    "headline": "Pratique intermédiaire du shell Linux (1/2)",
+    "url": "https://ferandec.github.io/2015/11/03/Pratique-intermediaire-du-shell-Linux-12.html",
+    "datePublished": "2015-11-02T23:00:00.000Z",
+    "dateModified": "2015-11-10T09:00:30.063Z",
+    "keywords": "linux shell",
+    "description": "Présentation de l&amp;#8217;activité Objectifs À l&amp;#8217;issue de ce TP, vous devez être capable de &amp;#8230;&amp;#8203; : mettre en pratique les différents mécanismes liés aux méta-caractères du shell (jokers, redirection, tubes, enchaînement de commandes&amp;#8230;&amp;#8203;) visualiser/..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost ?" />
+    <link rel="alternate" type="application/rss+xml" title="Ah, Gudule ! Si tu savais..." href="https://ferandec.github.io/rss" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
+</head>
+<body class="post-template tag-linux-shell">
+
+    
+
+
+<header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        <a class="back-button icon-arrow-left" href="https://ferandec.github.io">Home</a>
+        <!-- <a class="subscribe-button icon-feed" href="https://ferandec.github.io/rss/">Subscribe</a> -->
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post tag-linux-shell">
+
+        <header class="post-header">
+            <h1 class="post-title">Pratique intermédiaire du shell Linux (1/2)</h1>
+            <section class="post-meta">
+                <time class="post-date" datetime="2015-11-03">03 November 2015</time>  on <a href="https://ferandec.github.io/tag/linux-shell">linux shell</a>
+            </section>
+        </header>
+
+        <section class="post-content">
+            <div class="sect1">
+<h2 id="__em_pr_sentation_de_l_activit_em"><em>Présentation de l&#8217;activité</em></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_objectifs">Objectifs</h3>
+<div class="paragraph">
+<p>À l&#8217;issue de ce TP, vous devez être capable de &#8230;&#8203; :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>mettre en pratique les différents mécanismes liés aux méta-caractères du shell (jokers, redirection, tubes, enchaînement de commandes&#8230;&#8203;)</p>
+</li>
+<li>
+<p>visualiser/contrôler/tuer les processus du système</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dur_e">Durée</h3>
+<div class="paragraph">
+<p>4h</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_compte_rendu">Compte rendu</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Réponses aux question posées. Vous apporterez une attention particulière à la rédaction et à l&#8217;orthographe.</p>
+</li>
+<li>
+<p>Retranscrire toutes les commandes.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pr_requis">Pré-requis</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Notions de base sur les systèmes d&#8217;exploitation.</p>
+</li>
+<li>
+<p>Maîtrise des commandes de base du shell Linux (TP précédent)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ressources">Ressources</h3>
+<div class="ulist">
+<div class="title">Matériels :</div>
+<ul>
+<li>
+<p>PC Linux avec distribution OpenSUSE</p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Logiciels :</div>
+<ul>
+<li>
+<p>Néant</p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Documents :</div>
+<ul>
+<li>
+<p>Pages de manuel Linux</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="__em_travail_demand_em"><em>Travail demandé</em></h2>
+<div class="sectionbody">
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Dans la mesure du possible, il est demandé de saisir les commandes présentées dans les exemples afin de constater par vous même leur résultat et de mieux comprendre leur rôle.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_m_ta_caract_res_du_shell">1. Méta-caractères du shell</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Des <strong>méta-caractères</strong> sont des caractères qui remplacent/décrivent d&#8217;autres caractères ou qui prennent un sens particulier dans un certain contexte.</p>
+</div>
+<div class="paragraph">
+<p>Dans le cadre du shell, ces méta-caractères sont généralement utilisés :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>pour constituer des motifs qui désignent un ensemble de fichiers/répertoires</p>
+</li>
+<li>
+<p>pour agir sur le comportement des commandes.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Exemple :</div>
+<div class="content">
+<pre class="highlight"><code>$ ls /dev/tty* <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Cette commande liste tous les fichiers du répertoire <code>/dev</code> dont le nom débute par <strong>tty</strong>.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Parmi les méta-caractères les plus répandus, on trouve :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>l&#8217;astérisque &#8216;*&#8217;,</p>
+</li>
+<li>
+<p>le point d&#8217;interrogation &#8216;?&#8217;</p>
+</li>
+<li>
+<p>le point d&#8217;exclamation &#8216;!&#8217;</p>
+</li>
+<li>
+<p>les crochets &#8216;[]&#8217;</p>
+</li>
+<li>
+<p>les signes &#8216;&lt;&#8217; et &#8216;&gt;&#8217;</p>
+</li>
+<li>
+<p>la barre verticale &#8216;|&#8217;</p>
+</li>
+<li>
+<p>l&#8217;esperluette &#8216;&amp;&#8217;</p>
+</li>
+<li>
+<p>le point virgule &#8216;;&#8217;</p>
+</li>
+<li>
+<p>l&#8217;antislash &#8216;\&#8217;</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Ainsi, lorsqu&#8217;ils apparaissent dans des commandes, le shell leur accorde une signification particulière et les traite avant d&#8217;exécuter la commande.</p>
+</div>
+<div class="paragraph">
+<p>Des moyens existent cependant pour annuler le sens particulier des méta-caractères au sein des commandes :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>L'<strong>échappement</strong> qui annule le sens particulier de <strong>TOUS</strong> les méta-caractères.</p>
+<div class="paragraph">
+<p>Il consiste à précéder le méta-caractère par un antislash (&#8216;\&#8217;). Pour annuler le sens particulier de l&#8217;antislash, il suffit de le doubler.</p>
+</div>
+<div class="listingblock">
+<div class="title">Exemple : Affichage d&#8217;un texte comportant un antislash avec la commande <strong>echo</strong></div>
+<div class="content">
+<pre>$ echo Windows7 est installé par défaut dans c:\windows
+Windows7 est installé par défaut dans c:windows  <i class="conum" data-value="1"></i><b>(1)</b>
+
+$ echo Windows7 est installé par défaut dans c:\\windows
+Windows7 est installé par défaut dans c:\windows <i class="conum" data-value="2"></i><b>(2)</b>
+$</pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>il manque l&#8217;antislash entre &#8216;:&#8217; et &#8216;windows&#8217; car il a été &#8220;englouti&#8221; par le shell qui lui accorde une signification particulière</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>en doublant l&#8217;antislash dans la commande, l&#8217;affichage est conforme à ce qui est attendu</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>les <strong>guillemets doubles</strong> ("&#8230;&#8203;") qui annulent l&#8217;interprétation de certains méta-caractères par le shell.</p>
+<div class="paragraph">
+<p>L&#8217;utilisation des guillemets double ne désactive pas les mécanismes de <strong>substitution de commande</strong> et de <strong>substitution de variables</strong> qui seront abordés plus loin.</p>
+</div>
+<div class="listingblock">
+<div class="title">Exemple : affichage de texte comportant les signes &#8216;&lt;&#8217; et &#8216;&gt;&#8217; et faisant référence à une variable d&#8217;environnement</div>
+<div class="content">
+<pre>$ echo le nom de ma machine est &lt;$HOSTNAME&gt;
+bash: syntax error near unexpected token `newline' <i class="conum" data-value="1"></i><b>(1)</b>
+$ echo "le nom de ma machine est &lt;$HOSTNAME&gt;"
+le nom de ma machine est &lt;topix&gt; <i class="conum" data-value="2"></i><b>(2)</b>
+$</pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Le signe &#8216;&lt;&#8217; a été interprété par le shell &#8658; il génère une erreur car la commande n&#8217;a pas de sens</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>les guillemets double ont annulé l&#8217;interprétation des signes &#8216;&lt;&#8217; et &#8216;&gt;&#8217; mais pas de &#8216;$&#8217; en tant que préfixe de variable d&#8217;environnement &#8658; celle-ci est remplacée dans le texte par sa valeur : c&#8217;est ce qu&#8217;on appelle la <strong>substitution de variable</strong></td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>les <strong>guillemets simples</strong> (' ') qui annulent le sens de la plupart des méta-caractères.</p>
+<div class="listingblock">
+<div class="title">Exemple : même exemple que précédemment</div>
+<div class="content">
+<pre>$ echo 'le nom de ma machine est &lt;$HOSTNAME&gt;'
+le nom de ma machine est &lt;$HOSTNAME&gt; <i class="conum" data-value="1"></i><b>(1)</b>
+$</pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>ici aucun des méta-caractères utilisés n&#8217;a été interprété. Le texte est rendu tel quel.</td>
+</tr>
+</table>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+        </section>
+
+        <footer class="post-footer">
+
+
+            <figure class="author-image">
+                <a class="img" href="" style="background-image: url(https://avatars.githubusercontent.com/u/2629602?v=3)"><span class="hidden">'s Picture</span></a>
+            </figure>
+
+            <section class="author">
+                <h4><a href=""></a></h4>
+
+                    <p>Read <a href="">more posts</a> by this author.</p>
+                <div class="author-meta">
+                    
+                    
+                </div>
+            </section>
+
+
+            <section class="share">
+                <h4>Share this post</h4>
+                <a class="icon-twitter" href="https://twitter.com/share?text=Pratique%20interm%C3%A9diaire%20du%20shell%20Linux%20(1%2F2)&amp;url=https://ferandec.github.io/2015/11/03/Pratique-intermediaire-du-shell-Linux-12.html"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <span class="hidden">Twitter</span>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://ferandec.github.io/2015/11/03/Pratique-intermediaire-du-shell-Linux-12.html"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <span class="hidden">Facebook</span>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=https://ferandec.github.io/2015/11/03/Pratique-intermediaire-du-shell-Linux-12.html"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <span class="hidden">Google+</span>
+                </a>
+            </section>
+
+        </footer>
+
+
+    </article>
+
+</main>
+
+
+
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="https://ferandec.github.io">Ah, Gudule ! Si tu savais...</a> &copy; 2015</section>
+        <section class="poweredby">Proudly published with <a href="http://hubpress.io">HubPress</a></section>
+    </footer>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js?v="></script> 
+      <script type="text/javascript">
+        jQuery( document ).ready(function() {
+          // change date with ago
+          jQuery('ago.ago').each(function(){
+            var element = jQuery(this).parent();
+            element.html( moment(element.text()).fromNow());
+          });
+        });
+
+        hljs.initHighlightingOnLoad();      
+      </script>
+
+    <script type="text/javascript" src="//ferandec.github.io/themes/Casper/assets/js/jquery.fitvids.js?v=1.0.0"></script>
+    <script type="text/javascript" src="//ferandec.github.io/themes/Casper/assets/js/index.js?v=1.0.0"></script>
+
+</body>
+</html>
